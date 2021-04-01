@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>A simple, clean, and responsive HTML invoice template</title>
+
+    <style>
+      body {
+        /* font-family:Georgia, 'Times New Roman', Times, serif */
+        /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif */
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+      }
+      @page {
+        size: a4 portrait;
+        margin: 0mm 0mm 0mm 0mm;
+        counter-increment: page;
+      }
+      #heading {
+        text-align: center;
+      }
+      #title-top {
+        display: flex;
+        justify-content: space-between;
+        padding: 0px;
+      }
+      #table-title {
+        border: 1px solid black;
+      }
+
+      .invoice-box {
+        max-width: 800px;
+        margin: auto;
+        padding: 0px 30px;
+        font-size: 16px;
+        line-height: 24px;
+        color: black;
+      }
+
+      .invoice-box h3 {
+        padding-top: 0;
+      }
+
+      .invoice-box table {
+        border: 1px solid black;
+        width: 100%;
+        line-height: inherit;
+        text-align: left;
+      }
+
+      .invoice-box table td {
+        padding: 5px;
+        vertical-align: top;
+      }
+
+      .invoice-box table tr td:nth-child(2) {
+        text-align: right;
+        justify-content: space-between;
+      }
+
+      .invoice-box table tr.top {
+        color: black;
+        text-align: center;
+      }
+      .invoice-box table tr.top h1 {
+        font-size: 56px;
+      }
+
+      .invoice-box table tr.information td {
+        border: 1px solid black;
+        padding: 10px 10px 20px;
+        width: 50%;
+      }
+
+      .invoice-box table tr.top td {
+        border: 1px solid black;
+        padding: 0px 20px;
+        width: 50%;
+        width: 70%;
+        text-align: center;
+        border-right: none;
+      }
+
+      .invoice-box table tr.heading td {
+        background: #eee;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .invoice-box table tr.details td {
+        padding-bottom: 20px;
+      }
+
+      .invoice-box table tr.item td {
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        /* border: 1px solid black; */
+      }
+
+      .invoice-box table tr.item.last td {
+        border-bottom: none;
+      }
+
+      .invoice-box table tr.gap td {
+        height: 200px;
+        border: 1px solid black;
+        border-top: none;
+      }
+
+      .invoice-box table tr.gap td {
+        height: 200px;
+      }
+
+      .invoice-box table tr.total td {
+        padding: 0;
+      }
+      .invoice-box table tr.total td table td {
+        padding: 5px;
+      }
+
+      .invoice-box table tr.total td table,
+      .invoice-box table tr.total td table td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+
+      .invoice-box table tr.total td:nth-child(2) {
+        text-align: center;
+        font-weight: normal;
+      }
+
+      .invoice-box table tr.total td:nth-child(1) {
+        font-weight: bold;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .invoice-box table tr.top table td {
+          width: 100%;
+          display: block;
+          text-align: center;
+        }
+
+        .invoice-box table tr.information table td {
+          width: 100%;
+          display: block;
+          text-align: center;
+        }
+      }
+      div.divFooter {
+        position: fixed;
+        height: 30px;
+        background-color: purple;
+        bottom: 0;
+        width: 100%;
+        left: 0;
+      }
+
+      /** RTL **/
+      .rtl {
+        direction: rtl;
+        font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial;
+      }
+
+      .rtl table {
+        text-align: right;
+      }
+
+      .rtl table tr td:nth-child(2) {
+        text-align: left;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="invoice-box">
+      <h3 id="heading">Tax Invoice</h3>
+      <table cellpadding="0" cellspacing="0">
+        <!--tr begin-->
+
+        <tr class="top">
+          <td class="title" colspan="4">
+            <div id="title-top">
+              <p>GST NO.{{senderGst}}</p>
+              <p>Mob:{{senderMobile}}</p>
+            </div>
+            <h1>R.K. Enterprises</h1>
+            <p>
+              Manufacture and trade of lorem ipsum <br />address of bawana lorem
+              ipsum
+            </p>
+          </td>
+
+          <td colspan="2" style="width: 30%; border-right: 1px solid black">
+            <br /><br />
+            Invoice #: {{invoice_number}}<br /><br />
+            Date: {{date}}<br /><br />
+          </td>
+        </tr>
+
+        <tr class="information">
+          <td colspan="2" style="border-right: none; font-style: normal">
+            <b>Billed To<br /></b>
+            M/s {{from_addr['company_name']}}<br />
+            {{from_addr['addr']}} fsjkfh bskjbfsjkf ssbfskaj jfsfsa lorem ipsum
+            <br />
+            <b>State Code:</b> {{from_addr['state_code']}} <br />
+            <b>GSTIN:</b> {{from_addr['gst']}}
+          </td>
+          <td style="text-align: left" colspan="4">
+            <b>Transport:</b> {{transport_details['transport']}}<br />
+            <b>P.Order No.:</b>{{transport_details['pOrderNo']}}<br />
+            <b>No. of Pkgs.:</b>{{transport_details['numberOfPkgs']}}<br />
+            <b>Date and Time of Supply:</b>
+            {{transport_details['supplyDateTime']}}<br />
+            <b>Place of Supply:</b>{{transport_details['supplyPlace']}}<br />
+            <div style="display: flex; justify-content: space-between">
+              <b>Vehicle No.:</b>{{transport_details['vehicleNumber']}}<br />
+              <b>GR/RR No.:</b>{{transport_details['grNumber']}}<br />
+            </div>
+          </td>
+        </tr>
+
+        <tr class="heading">
+          <td style="border-left: 1px solid black">S.No.</td>
+          <td style="flex: 1">Description of Goods</td>
+          <td>HSN Code</td>
+          <td>Qty.</td>
+          <td>Rate</td>
+          <td style="border-right: 1px solid black">Amount</td>
+        </tr>
+
+        {% for item in items %}
+        <tr class="item">
+          <td style="border-left: 1px solid black">{{item['index']+1}}</td>
+          <td>{{item['title']}}</td>
+          <td>{{item['hsn']}}</td>
+          <td>{{item['qty']}}</td>
+          <td>Rs.{{item['rate']}}</td>
+          <td style="border-right: 1px solid black">
+            Rs.{{item['qty']*item['rate']}}
+          </td>
+        </tr>
+        {% endfor %}
+
+        <tr class="gap">
+          <td colspan="6"></td>
+        </tr>
+
+        <tr class="total">
+          <td colspan="6">
+            <table>
+              <tr>
+                <td rowspan="5" style="width: 50%; font-weight: normal">
+                  <b>Amount in words:</b> {{amountInWords}}
+                </td>
+                <td colspan="3" style="text-align: left; font-weight: bold">
+                  Less : Discount
+                </td>
+                <td style="text-align: center; font-weight: normal">
+                  {{discount}}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">Freight/Other Charges</td>
+                <td style="text-align: center">{{extraCost}}</td>
+              </tr>
+              <tr>
+                <td colspan="3">Total Amount before GST</td>
+                <td>{{totalBeforeTax}}</td>
+              </tr>
+              <tr>
+                <td colspan="3">(+)CGST @ {{cgst}}%</td>
+                <td>{{cgstAmount}}</td>
+              </tr>
+              <tr>
+                <td colspan="3">(+)SGST @ {{sgst}}%</td>
+                <td>{{sgstAmount}}</td>
+              </tr>
+              <tr>
+                <td style="font-weight: normal">Electronic reference No.</td>
+                <td colspan="3" style="font-weight: bold; text-align: left">
+                  (+)IGST @ {{igst}}%
+                </td>
+                <td style="font-weight: normal; text-align: center">
+                  {{igstAmount}}
+                </td>
+              </tr>
+              <tr>
+                <td style="font-weight: normal">
+                  Tax is payable on reverse charge:
+                </td>
+                <td colspan="3" style="font-weight: bold; text-align: left">
+                  Total Amount
+                </td>
+                <td style="font-weight: normal; text-align: center">
+                  {{netAmount}}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
