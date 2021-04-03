@@ -11,6 +11,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
     posted_data = request.get_json() or {}
+    print(posted_data)
     today = datetime.today().strftime("%B %d, %Y")
     default_data = {
         'duedate': 'August 1, 2020',
@@ -90,16 +91,26 @@ def hello_world():
                                )
     # return rendered
     html = HTML(string=rendered)
-    rendered_pdf = html.write_pdf()
-    generated_pdf = send_file(
-        io.BytesIO(rendered_pdf),
-        attachment_filename='invoice.pdf'
-    )
+    # './new/invoice.pdf'
+    html.write_pdf('./new/invoice4.pdf')
+    # generated_pdf = send_file(
+    #     io.BytesIO(rendered_pdf),
+    #     attachment_filename='invoice.pdf'
+    # )
 
-    # return 'hello'
-    return generated_pdf
+    return {'message': 'done'}
+    # return generated_pdf
     # print(generated_pdf)
     # with open("invoice.pdf", "wb") as f:
+
+
+@app.route('/get-pdf/<pdf_filename>', methods=['GET', 'POST'])
+def get_pdf(pdf_filename):
+
+    try:
+        return send_from_directory('./new', filename=pdf_filename, as_attachment=True)
+    except FileNotFoundError:
+        abort(404)
 
 
 if __name__ == '__main__':
